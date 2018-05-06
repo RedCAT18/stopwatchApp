@@ -1,14 +1,41 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Platform } from 'react-native';
+import {
+  View,
+  Text,
+  ImageBackground,
+  StyleSheet,
+  Platform,
+  StatusBar
+} from 'react-native';
 
-import { FontAwesome } from '@expo/vector-icons';
+import { FontAwesome, Foundation } from '@expo/vector-icons';
 import Button from '../Button';
+
+function setTime(time) {
+  //change time format
+  //if min or sec is smaller than 10, attach '0' in front of the number
+  //1. minutes
+  let min = Math.floor(time / 60);
+  min = min < 10 ? '0' + min : min;
+  //2. seconds
+  let sec = parseInt(time % 60, 10);
+  sec = sec < 10 ? '0' + sec : sec;
+  return min + ' : ' + sec;
+}
 
 class Timer extends Component {
   componentWillReceiveProps(nextProps) {
     const currentProps = this.props;
-    console.log(nextProps);
-    console.log(currentProps);
+    //when app is playing, counting seconds is done at every second, unless it stops counting.
+    if (nextProps.isPlaying && !currentProps.isPlaying) {
+      const counter = setInterval(() => {
+        currentProps.countSecond();
+      }, 1000);
+      this.setState({ counter });
+    } else if (!nextProps.isPlaying && currentProps.isPlaying) {
+      clearInterval(this.state.counter);
+    }
+    // console.log(currentProps);
   }
 
   _toggleTimer = () => {
@@ -16,16 +43,24 @@ class Timer extends Component {
   };
 
   _initialTimer = () => {
-    this.props.isPlaying && !this.props.isFinish
+    this.props.isPlaying || !this.props.isFinish
       ? this.props.stopTimer()
       : null;
   };
 
   render() {
+    const { elapsedTime } = this.props;
     return (
-      <View style={styles.container}>
+      <ImageBackground
+        source={require('../../assets/astro.jpg')}
+        style={styles.container}
+      >
+        <StatusBar barStyle="dark-content" />
+        <View style={styles.titleArea}>
+          <Text style={styles.title}>Starwatch</Text>
+        </View>
         <View style={styles.numbers}>
-          <Text style={styles.bigText}>00:00</Text>
+          <Text style={styles.bigText}>{setTime(elapsedTime)}</Text>
         </View>
         <View style={styles.places}>
           <Button onPress={this._toggleTimer}>
@@ -36,10 +71,10 @@ class Timer extends Component {
             )}
           </Button>
           <Button onPress={this._initialTimer}>
-            <FontAwesome name="stop-circle-o" size={100} color="#fff" />
+            <Foundation name="refresh" size={100} color="#fff" />
           </Button>
         </View>
-      </View>
+      </ImageBackground>
     );
   }
 }
@@ -48,6 +83,23 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#333366'
+  },
+  titleArea: {
+    alignItems: 'center',
+    padding: 10,
+    marginTop: 40
+  },
+  title: {
+    color: '#fff',
+    fontSize: 36,
+    ...Platform.select({
+      ios: {
+        fontWeight: '100'
+      },
+      android: {
+        fontFamily: 'sans-serif-thin'
+      }
+    })
   },
   numbers: {
     flex: 2,

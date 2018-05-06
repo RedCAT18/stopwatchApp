@@ -20,13 +20,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: '#131d4f',
+    backgroundColor: 'rgba(12, 27, 32, 0.5)',
     borderRadius: 5,
     marginTop: 20,
     marginHorizontal: 10,
-    padding: 20,
-    borderWidth: 1,
-    borderColor: '#121c4e'
+    padding: 20
   },
   icon: {
     alignSelf: 'center',

@@ -51,6 +51,8 @@ function reducer(state = INITIAL_STATE, action) {
       return applyPauseTimer(state);
     case STOP_TIMER:
       return applyStopTimer(state);
+    case COUNT_SECOND:
+      return applyCountSecond(state);
     default:
       return state;
   }
@@ -59,8 +61,6 @@ function reducer(state = INITIAL_STATE, action) {
 //helper functions
 
 function applyStartTimer(state) {
-  //counting time
-
   return { ...state, isPlaying: true, isFinish: false };
 }
 
@@ -72,10 +72,15 @@ function applyStopTimer(state) {
   return INITIAL_STATE;
 }
 
+function applyCountSecond(state) {
+  return { ...state, elapsedTime: state.elapsedTime + 1 };
+}
+
 const actionCreators = {
   startTimer,
   pauseTimer,
-  stopTimer
+  stopTimer,
+  countSecond
 };
 
 export { actionCreators };

@@ -14,7 +14,8 @@ const mapDispatchToProps = dispatch => {
   return {
     startTimer: bindActionCreators(timerActions.startTimer, dispatch),
     pauseTimer: bindActionCreators(timerActions.pauseTimer, dispatch),
-    stopTimer: bindActionCreators(timerActions.stopTimer, dispatch)
+    stopTimer: bindActionCreators(timerActions.stopTimer, dispatch),
+    countSecond: bindActionCreators(timerActions.countSecond, dispatch)
   };
 };
 

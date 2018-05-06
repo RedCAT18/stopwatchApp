@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "timer",
+    "name": "Starwatch",
     "description": "This project is really great.",
     "slug": "timer",
     "privacy": "public",
@@ -17,11 +17,12 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
+    },
+    "android": {
+      "package": "co.RedCAT.starwatch"
     }
   }
 }
